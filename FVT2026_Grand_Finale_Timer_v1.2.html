@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Future Voices Thailand 2026 — Grand Finale Timer v1.2</title>
+  <style>
+    :root{
+      --navy:#04152f;
+      --navy2:#072a55;
+      --teal:#00b7b5;
+      --cyan:#31d8ff;
+      --green:#24c67a;
+      --gold:#f6bd3a;
+      --orange:#ff8a22;
+      --red:#ff3b4d;
+      --white:#f7fbff;
+      --muted:#9fb8d0;
+      --panel:rgba(5,20,45,.72);
+      --border:rgba(255,255,255,.14);
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      width:100%;
+      height:100%;
+      margin:0;
+      overflow:hidden;
+      background:#020814;
+      font-family:Inter,"Segoe UI",Arial,sans-serif;
+      color:var(--white);
+      user-select:none;
+      cursor:default;
+    }
+
+    body{
+      background:
+        radial-gradient(circle at 20% 15%, rgba(0,183,181,.16), transparent 26%),
+        radial-gradient(circle at 82% 16%, rgba(49,216,255,.10), transparent 28%),
+        linear-gradient(145deg,#020814 0%,#061830 52%,#020814 100%);
+    }
+
+    .stage{
+      position:relative;
+      width:100vw;
+      height:100vh;
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+      padding:3.2vh 3vw 2.2vh;
+      isolation:isolate;
+    }
+
+    .stage::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:-2;
+      background:
+        linear-gradient(115deg, transparent 0 43%, rgba(255,255,255,.025) 44% 45%, transparent 46%),
+        repeating-linear-gradient(90deg,transparent 0 9.8vw,rgba(255,255,255,.018) 10vw);
+    }
+
+    .glow{
+      position:absolute;
+      inset:auto 0 0;
+      height:26vh;
+      z-index:-1;
+      background:radial-gradient(ellipse at center bottom,rgba(0,183,181,.17),transparent 68%);
+      pointer-events:none;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:2vw;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:1.1vw;
+      min-width:0;
+    }
+
+    .brand-mark{
+      width:clamp(54px,5.4vw,100px);
+      aspect-ratio:1;
+      border-radius:26%;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(145deg,var(--teal),#1767d4);
+      box-shadow:0 0 34px rgba(0,183,181,.22);
+      font-size:clamp(20px,2.1vw,40px);
+      font-weight:900;
+      letter-spacing:-.06em;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:clamp(20px,2.25vw,43px);
+      letter-spacing:-.035em;
+      line-height:1;
+      font-weight:900;
+    }
+
+    .brand p{
+      margin:.5vh 0 0;
+      color:var(--muted);
+      font-size:clamp(11px,1.05vw,20px);
+      font-weight:700;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .status-pill{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      backdrop-filter:blur(10px);
+      padding:1.2vh 1.3vw;
+      border-radius:999px;
+      color:#cfe7fa;
+      font-size:clamp(12px,1.05vw,19px);
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    main{
+      display:grid;
+      place-items:center;
+      min-height:0;
+    }
+
+    .timer-shell{
+      width:min(92vw,1500px);
+      text-align:center;
+      padding:1vh 2vw 0;
+    }
+
+    .phase{
+      margin:0 0 1vh;
+      font-size:clamp(22px,3.1vw,58px);
+      font-weight:900;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--cyan);
+      text-shadow:0 0 28px rgba(49,216,255,.23);
+      transition:.25s ease;
+    }
+
+    .instruction{
+      margin:0 auto 1.2vh;
+      color:#a8c0d8;
+      font-size:clamp(13px,1.35vw,25px);
+      font-weight:650;
+      min-height:1.8em;
+    }
+
+    .time{
+      margin:0;
+      font-variant-numeric:tabular-nums;
+      font-size:clamp(210px,34vw,560px);
+      line-height:.82;
+      letter-spacing:-.075em;
+      font-weight:950;
+      color:white;
+      text-shadow:
+        0 0 55px rgba(255,255,255,.11),
+        0 22px 75px rgba(0,0,0,.45);
+      transition:color .2s ease,text-shadow .2s ease,transform .15s ease;
+    }
+
+    .time.bump{transform:scale(1.018)}
+
+    .progress{
+      width:min(72vw,1180px);
+      height:clamp(8px,1vh,16px);
+      margin:2.1vh auto 0;
+      overflow:hidden;
+      border-radius:999px;
+      background:rgba(255,255,255,.09);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .progress > div{
+      height:100%;
+      width:100%;
+      transform-origin:left center;
+      background:linear-gradient(90deg,var(--teal),var(--cyan));
+      box-shadow:0 0 22px rgba(49,216,255,.32);
+      transition:background .2s;
+    }
+
+    .phase-prep .phase{color:var(--cyan)}
+    .phase-prep .progress > div{background:linear-gradient(90deg,#177ddc,var(--cyan))}
+
+    .phase-speech .phase{color:#52efad}
+    .phase-speech .progress > div{background:linear-gradient(90deg,var(--teal),var(--green))}
+
+    .phase-warning .phase{color:var(--gold)}
+    .phase-warning .time{
+      color:#ffd85c;
+      text-shadow:0 0 52px rgba(246,189,58,.32),0 22px 75px rgba(0,0,0,.48);
+    }
+    .phase-warning .progress > div{background:linear-gradient(90deg,var(--orange),var(--gold))}
+
+    .phase-finished .phase{color:#ff6e7a}
+    .phase-finished .time{
+      color:#ff5364;
+      text-shadow:0 0 56px rgba(255,59,77,.4),0 22px 75px rgba(0,0,0,.5);
+    }
+    .phase-finished .progress > div{background:var(--red)}
+
+    footer{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:.8vw;
+      min-height:5.5vh;
+    }
+
+    .controls{
+      display:flex;
+      align-items:center;
+      gap:.4vw;
+      padding:.35vh .4vw;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:rgba(0,0,0,.28);
+      backdrop-filter:blur(12px);
+      transition:opacity .35s ease,transform .35s ease;
+    }
+
+    .controls.dim{
+      opacity:.28;
+      transform:translateY(1.2vh);
+    }
+    .controls.dim:hover{opacity:1;transform:none}
+
+    button{
+      border:0;
+      color:white;
+      font:inherit;
+      font-weight:900;
+      font-size:clamp(10px,.72vw,14px);
+      min-height:34px;
+      padding:.45vh .8vw;
+      border-radius:999px;
+      cursor:pointer;
+      background:rgba(255,255,255,.09);
+      border:1px solid rgba(255,255,255,.11);
+    }
+
+    button:hover{background:rgba(255,255,255,.16)}
+    button:active{transform:scale(.97)}
+
+    #startBtn{
+      min-width:clamp(110px,9vw,170px);
+      background:linear-gradient(135deg,#00a996,#1474d4);
+      box-shadow:0 0 28px rgba(0,183,181,.2);
+    }
+
+    #resetBtn{color:#ffd0d4}
+    .hint{
+      position:absolute;
+      right:2vw;
+      bottom:1.6vh;
+      color:rgba(194,217,237,.5);
+      font-size:clamp(9px,.72vw,13px);
+      font-weight:700;
+      text-align:right;
+      line-height:1.5;
+    }
+
+    .flash{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:rgba(255,190,30,0);
+      z-index:10;
+    }
+
+    .flash.go{animation:flash .45s ease}
+    .flash.end{animation:flashEnd .7s ease}
+    @keyframes flash{
+      0%{background:rgba(255,190,30,0)}
+      30%{background:rgba(255,190,30,.15)}
+      100%{background:rgba(255,190,30,0)}
+    }
+    @keyframes flashEnd{
+      0%{background:rgba(255,59,77,0)}
+      30%{background:rgba(255,59,77,.20)}
+      100%{background:rgba(255,59,77,0)}
+    }
+
+    @media(max-aspect-ratio:4/3){
+      .time{font-size:clamp(190px,36vw,430px)}
+      .timer-shell{width:96vw}
+    }
+  </style>
+</head>
+<body>
+  <div class="flash" id="flash"></div>
+
+  <div class="stage phase-prep" id="stage">
+    <div class="glow"></div>
+
+    <header>
+      <div class="brand">
+        <div class="brand-mark">FV</div>
+        <div>
+          <h1>FUTURE VOICES THAILAND 2026</h1>
+          <p>Grand Finale • Official Stage Timer</p>
+        </div>
+      </div>
+      <div class="status-pill" id="statusPill">READY</div>
+    </header>
+
+    <main>
+      <section class="timer-shell">
+        <div class="phase" id="phase">Preparation Time</div>
+        <div class="instruction" id="instruction">60 seconds to prepare your speech.</div>
+        <div class="time" id="time">1:00</div>
+        <div class="progress"><div id="progressBar"></div></div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="controls" id="controls">
+        <button id="startBtn">START PREP</button>
+        <button id="pauseBtn">PAUSE</button>
+        <button id="resetBtn">RESET</button>
+        <button id="fullBtn">FULL SCREEN</button>
+      </div>
+    </footer>
+
+    <div class="hint">
+      Space / Timer = Start · P Pause · R Reset · F Full Screen
+    </div>
+  </div>
+
+<script>
+(() => {
+  const PREP_SECONDS = 60;
+  const SPEECH_SECONDS = 180;
+  const WARNING_SECONDS = 60;
+
+  const stage = document.getElementById('stage');
+  const phaseEl = document.getElementById('phase');
+  const instructionEl = document.getElementById('instruction');
+  const timeEl = document.getElementById('time');
+  const progressBar = document.getElementById('progressBar');
+  const statusPill = document.getElementById('statusPill');
+  const controls = document.getElementById('controls');
+  const flash = document.getElementById('flash');
+
+  const startBtn = document.getElementById('startBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const fullBtn = document.getElementById('fullBtn');
+
+  let phase = 'prep';
+  let remaining = PREP_SECONDS;
+  let phaseDuration = PREP_SECONDS;
+  let running = false;
+  let finished = false;
+  let awaitingSpeech = false;
+  let warningPlayed = false;
+  let endAt = 0;
+  let raf = null;
+  let audioCtx = null;
+
+  function ensureAudio(){
+    if(!audioCtx){
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+  }
+
+  function tone(freq=880, duration=.16, volume=.18, type='sine', delay=0){
+    ensureAudio();
+    const now = audioCtx.currentTime + delay;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, now);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(volume, now+.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now+duration);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start(now);
+    osc.stop(now+duration+.03);
+  }
+
+  function prepEndSound(){
+    tone(740,.14,.14,'sine',0);
+    tone(980,.18,.17,'sine',.18);
+  }
+
+  function warningSound(){
+    tone(880,.14,.15,'square',0);
+    tone(880,.14,.15,'square',.22);
+  }
+
+  function finishSound(){
+    tone(620,.20,.18,'square',0);
+    tone(520,.22,.2,'square',.25);
+    tone(420,.45,.22,'square',.52);
+  }
+
+  function format(sec){
+    sec = Math.max(0, Math.ceil(sec));
+    const m = Math.floor(sec/60);
+    const s = sec % 60;
+    return `${m}:${String(s).padStart(2,'0')}`;
+  }
+
+  function setPhase(next){
+    phase = next;
+    warningPlayed = false;
+    stage.className = 'stage';
+
+    if(next === 'prep'){
+      remaining = PREP_SECONDS;
+      phaseDuration = PREP_SECONDS;
+      stage.classList.add('phase-prep');
+      phaseEl.textContent = 'Preparation Time';
+      instructionEl.textContent = '60 seconds to prepare your speech.';
+    }else if(next === 'speech'){
+      remaining = SPEECH_SECONDS;
+      phaseDuration = SPEECH_SECONDS;
+      stage.classList.add('phase-speech');
+      phaseEl.textContent = 'Speech Time';
+      instructionEl.textContent = 'Your 3-minute speech starts now.';
+    }else{
+      remaining = 0;
+      stage.classList.add('phase-finished');
+      phaseEl.textContent = 'Time Up';
+      instructionEl.textContent = 'Thank you.';
+    }
+    render();
+  }
+
+  function render(){
+    timeEl.textContent = format(remaining);
+    const pct = phaseDuration ? Math.max(0, Math.min(1, remaining/phaseDuration)) : 0;
+    progressBar.style.transform = `scaleX(${pct})`;
+
+    stage.classList.remove('phase-warning');
+    if(phase === 'speech' && remaining <= WARNING_SECONDS && remaining > 0){
+      stage.classList.add('phase-warning');
+    }
+
+    if(finished){
+      statusPill.textContent = 'FINISHED';
+      startBtn.textContent = 'START NEXT';
+    }else if(awaitingSpeech){
+      statusPill.textContent = 'READY TO SPEAK';
+      startBtn.textContent = 'START SPEECH';
+    }else if(running){
+      statusPill.textContent = phase === 'prep' ? 'PREPARING' : 'SPEAKING';
+      startBtn.textContent = 'RUNNING';
+    }else{
+      statusPill.textContent = remaining === PREP_SECONDS && phase === 'prep' ? 'READY' : 'PAUSED';
+      startBtn.textContent = phase === 'prep' && remaining === PREP_SECONDS ? 'START PREP' : 'RESUME';
+    }
+
+    pauseBtn.textContent = running ? 'PAUSE' : 'RESUME';
+  }
+
+  function pulse(){
+    timeEl.classList.remove('bump');
+    void timeEl.offsetWidth;
+    timeEl.classList.add('bump');
+    setTimeout(()=>timeEl.classList.remove('bump'),140);
+  }
+
+  function flashScreen(kind='go'){
+    flash.className = `flash ${kind}`;
+    setTimeout(()=>flash.className='flash',750);
+  }
+
+  function start(){
+    ensureAudio();
+
+    if(finished){
+      reset();
+    }
+
+    if(running) return;
+
+    if(awaitingSpeech){
+      awaitingSpeech = false;
+      setPhase('speech');
+      remaining = SPEECH_SECONDS;
+      phaseDuration = SPEECH_SECONDS;
+      flashScreen('go');
+      pulse();
+    }
+
+    running = true;
+    endAt = performance.now() + remaining*1000;
+    controls.classList.add('dim');
+    tick();
+    render();
+  }
+
+  function pause(){
+    if(finished || awaitingSpeech) return;
+    if(running){
+      remaining = Math.max(0,(endAt-performance.now())/1000);
+      running = false;
+      if(raf) cancelAnimationFrame(raf);
+      controls.classList.remove('dim');
+      render();
+    }else{
+      start();
+    }
+  }
+
+  function reset(){
+    if(raf) cancelAnimationFrame(raf);
+    running = false;
+    finished = false;
+    awaitingSpeech = false;
+    warningPlayed = false;
+    controls.classList.remove('dim');
+    setPhase('prep');
+  }
+
+  function tick(){
+    if(!running) return;
+
+    remaining = Math.max(0,(endAt-performance.now())/1000);
+
+    if(phase === 'speech' && remaining <= WARNING_SECONDS && !warningPlayed){
+      warningPlayed = true;
+      warningSound();
+      flashScreen('go');
+      pulse();
+    }
+
+    if(remaining <= 0){
+      if(phase === 'prep'){
+        running = false;
+        awaitingSpeech = true;
+        prepEndSound();
+        flashScreen('go');
+
+        phase = 'speech';
+        remaining = SPEECH_SECONDS;
+        phaseDuration = SPEECH_SECONDS;
+
+        stage.className = 'stage phase-speech';
+        phaseEl.textContent = 'Ready to Speak';
+        instructionEl.textContent = 'Staff: press START SPEECH when the contestant is ready.';
+        controls.classList.remove('dim');
+        pulse();
+        render();
+        return;
+      }else{
+        running = false;
+        finished = true;
+        remaining = 0;
+        finishSound();
+        flashScreen('end');
+        setPhase('finished');
+        controls.classList.remove('dim');
+        render();
+        return;
+      }
+    }
+
+    render();
+    raf = requestAnimationFrame(tick);
+  }
+
+  async function toggleFullscreen(){
+    try{
+      if(!document.fullscreenElement){
+        await document.documentElement.requestFullscreen();
+      }else{
+        await document.exitFullscreen();
+      }
+    }catch(e){}
+  }
+
+  startBtn.addEventListener('click', e => { e.stopPropagation(); start(); });
+  pauseBtn.addEventListener('click', e => { e.stopPropagation(); pause(); });
+  resetBtn.addEventListener('click', e => { e.stopPropagation(); reset(); });
+  fullBtn.addEventListener('click', e => { e.stopPropagation(); toggleFullscreen(); });
+
+  document.addEventListener('keydown', e => {
+    if(e.code === 'Space'){
+      e.preventDefault();
+      if(running) return;
+      start();
+    }
+    if(e.key.toLowerCase()==='p') pause();
+    if(e.key.toLowerCase()==='r') reset();
+    if(e.key.toLowerCase()==='f') toggleFullscreen();
+  });
+
+  // Convenient for a wireless mouse: click the large central timer to start/resume.
+  timeEl.addEventListener('click', () => {
+    if(!running) start();
+  });
+
+  document.addEventListener('fullscreenchange',()=>{
+    fullBtn.textContent = document.fullscreenElement ? 'EXIT FULL SCREEN' : 'FULL SCREEN';
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
