@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Future Voices Thailand 2026 — Grand Finale Timer v2.0</title>
+<style>
+:root{--bg1:#020812;--bg2:#071a36;--cyan:#38dcff;--teal:#00b9b2;--green:#36df93;--gold:#ffd257;--orange:#ff9f2d;--red:#ff4a5f;--white:#f7fbff;--muted:#9db6cf;--border:rgba(255,255,255,.13)}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#020712;color:var(--white);font-family:Inter,"Segoe UI",Arial,sans-serif;user-select:none}
+body{background:radial-gradient(circle at 18% 8%,rgba(0,185,178,.15),transparent 28%),radial-gradient(circle at 86% 10%,rgba(56,220,255,.10),transparent 24%),linear-gradient(145deg,var(--bg1),var(--bg2) 52%,#020712)}
+.stage{position:relative;width:100vw;height:100vh;display:grid;grid-template-rows:auto 1fr auto;padding:2.2vh 2.4vw 1.3vh;isolation:isolate}
+.stage:before{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 10vw,rgba(255,255,255,.015) 10.1vw),linear-gradient(110deg,transparent 0 46%,rgba(255,255,255,.022) 47%,transparent 48%)}
+.stage:after{content:"";position:absolute;left:0;right:0;bottom:0;height:24vh;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at center bottom,rgba(0,185,178,.14),transparent 68%)}
+header{display:flex;justify-content:space-between;align-items:center;gap:2vw}
+.brand{display:flex;align-items:center;gap:1vw;min-width:0}.brand-mark{width:clamp(44px,4.4vw,80px);aspect-ratio:1;border-radius:24%;display:grid;place-items:center;background:linear-gradient(145deg,var(--teal),#1766d7);font-weight:950;font-size:clamp(18px,1.8vw,32px);letter-spacing:-.06em;box-shadow:0 0 30px rgba(0,185,178,.2)}
+.brand h1{margin:0;font-size:clamp(18px,1.8vw,34px);line-height:1;letter-spacing:-.035em;font-weight:950}.brand p{margin:.4vh 0 0;color:var(--muted);font-size:clamp(9px,.8vw,14px);font-weight:750;letter-spacing:.13em;text-transform:uppercase}
+.top-right{display:flex;gap:.55vw;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.mode-chip,.status-pill{min-height:32px;padding:.55vh .85vw;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.055);color:#d5e8f8;font-size:clamp(10px,.75vw,13px);font-weight:850;display:flex;align-items:center;gap:.35vw}.mode-chip strong{color:var(--cyan)}.status-pill{color:#fff}
+main{display:grid;place-items:center;min-height:0}.timer-shell{width:min(97vw,1760px);text-align:center;padding-top:.4vh}
+.phase{margin:0 0 .6vh;color:var(--cyan);font-size:clamp(24px,3vw,56px);line-height:1;font-weight:950;letter-spacing:.15em;text-transform:uppercase}
+.instruction{min-height:1.5em;margin:0 0 .4vh;color:#a8c2d9;font-size:clamp(12px,1.12vw,21px);font-weight:680}
+.time{margin:0;font-variant-numeric:tabular-nums;font-size:clamp(250px,40vw,670px);line-height:.77;letter-spacing:-.08em;font-weight:950;color:#fff;text-shadow:0 22px 75px rgba(0,0,0,.48),0 0 46px rgba(255,255,255,.09);cursor:pointer;transition:color .2s,text-shadow .2s,transform .15s}
+.time.bump{transform:scale(1.018)}.subline{min-height:1.3em;margin:.8vh 0 0;color:#91abc4;font-size:clamp(11px,1vw,19px);font-weight:780;letter-spacing:.03em}
+.progress{width:min(78vw,1320px);height:clamp(7px,.75vh,12px);margin:1.7vh auto 0;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.075)}.progress>div{width:0;height:100%;background:linear-gradient(90deg,#177adf,var(--cyan));box-shadow:0 0 18px rgba(56,220,255,.25)}
+.state-prep .phase{color:var(--cyan)}.state-ready .phase{color:#9cdfff}.state-ready .time{color:#eafaff}.state-speech .phase{color:var(--green)}.state-speech .progress>div{background:linear-gradient(90deg,var(--teal),var(--green))}
+.state-warning .phase{color:var(--gold)}.state-warning .time{color:var(--gold);text-shadow:0 0 52px rgba(255,210,87,.3),0 22px 75px rgba(0,0,0,.52)}.state-warning .progress>div{background:linear-gradient(90deg,var(--orange),var(--gold))}
+.state-finished .phase{color:#ff7d89}.state-finished .time{color:var(--red);text-shadow:0 0 58px rgba(255,74,95,.37),0 22px 75px rgba(0,0,0,.55)}.state-finished .progress>div{background:var(--red)}
+footer{display:flex;justify-content:center;align-items:center;min-height:5vh}.controls{display:flex;gap:.32vw;padding:.25vh .3vw;border:1px solid var(--border);border-radius:999px;background:rgba(0,0,0,.28);backdrop-filter:blur(10px);transition:opacity .25s ease,transform .25s ease}.controls.dim{opacity:.22;transform:translateY(.7vh)}.controls.dim:hover{opacity:1;transform:none}
+button{min-height:30px;padding:.38vh .65vw;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.075);color:#fff;font:inherit;font-size:clamp(9px,.6vw,11px);font-weight:900;cursor:pointer}button:hover{background:rgba(255,255,255,.14)}button:active{transform:scale(.97)}
+#mainBtn{min-width:clamp(92px,7.3vw,136px);background:linear-gradient(135deg,#00a99b,#176fd5)}.mode-btn.active{background:linear-gradient(135deg,#5648d8,#8b5cf6);border-color:transparent}#resetBtn{color:#ffd2d6}
+.flash{position:fixed;inset:0;pointer-events:none;z-index:30;background:transparent}.flash.warn{animation:warnFlash .5s ease}.flash.end{animation:endFlash .7s ease}
+@keyframes warnFlash{0%{background:rgba(255,193,50,0)}30%{background:rgba(255,193,50,.15)}100%{background:rgba(255,193,50,0)}}@keyframes endFlash{0%{background:rgba(255,74,95,0)}28%{background:rgba(255,74,95,.19)}100%{background:rgba(255,74,95,0)}}
+.hint{position:absolute;right:1.2vw;bottom:.7vh;color:rgba(195,218,237,.4);font-size:clamp(8px,.52vw,10px);font-weight:700;text-align:right}
+@media(max-aspect-ratio:4/3){.time{font-size:clamp(230px,43vw,510px)}.brand h1{white-space:normal}}
+</style>
+</head>
+<body>
+<div id="flash" class="flash"></div>
+<div id="stage" class="stage state-prep">
+<header>
+<div class="brand"><div class="brand-mark">FV</div><div><h1>FUTURE VOICES THAILAND 2026</h1><p>Grand Finale • Official Stage Timer</p></div></div>
+<div class="top-right"><div class="mode-chip">Division: <strong id="modeLabel">PRIMARY</strong></div><div class="status-pill" id="statusPill">READY</div></div>
+</header>
+<main>
+<section class="timer-shell">
+<div id="phase" class="phase">Preparation Time</div>
+<div id="instruction" class="instruction">Count up from 0:00 to 1:00.</div>
+<div id="time" class="time">0:00</div>
+<div id="subline" class="subline">Staff: press START PREP when preparation begins.</div>
+<div class="progress"><div id="progressBar"></div></div>
+</section>
+</main>
+<footer>
+<div id="controls" class="controls">
+<button id="primaryBtn" class="mode-btn active">PRIMARY</button>
+<button id="secondaryBtn" class="mode-btn">SECONDARY</button>
+<button id="mainBtn">START PREP</button>
+<button id="pauseBtn">PAUSE</button>
+<button id="resetBtn">RESET</button>
+<button id="fullBtn">FULL</button>
+</div>
+</footer>
+<div class="hint">1 Primary · 2 Secondary · Space Start · P Pause · R Reset · F Full Screen</div>
+</div>
+
+<script>
+(() => {
+const PREP_LIMIT=60;
+const MODES={primary:{label:'PRIMARY',speechLimit:180,warningAt:120},secondary:{label:'SECONDARY',speechLimit:240,warningAt:180}};
+const stage=document.getElementById('stage'),phaseEl=document.getElementById('phase'),instructionEl=document.getElementById('instruction'),timeEl=document.getElementById('time'),sublineEl=document.getElementById('subline'),progressBar=document.getElementById('progressBar'),modeLabel=document.getElementById('modeLabel'),statusPill=document.getElementById('statusPill'),controls=document.getElementById('controls'),flash=document.getElementById('flash');
+const primaryBtn=document.getElementById('primaryBtn'),secondaryBtn=document.getElementById('secondaryBtn'),mainBtn=document.getElementById('mainBtn'),pauseBtn=document.getElementById('pauseBtn'),resetBtn=document.getElementById('resetBtn'),fullBtn=document.getElementById('fullBtn');
+
+let mode='primary',phase='prep',running=false,elapsed=0,startAt=0,baseElapsed=0,warningPlayed=false,audioCtx=null,raf=null;
+const cfg=()=>MODES[mode];
+
+function ensureAudio(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume()}
+function tone(freq=800,duration=.16,volume=.16,type='sine',delay=0){ensureAudio();const now=audioCtx.currentTime+delay,osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,now);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(volume,now+.015);gain.gain.exponentialRampToValueAtTime(.0001,now+duration);osc.connect(gain).connect(audioCtx.destination);osc.start(now);osc.stop(now+duration+.04)}
+function prepDoneSound(){tone(720,.14,.15,'sine',0);tone(980,.22,.18,'sine',.18)}
+function warningSound(){tone(900,.14,.16,'square',0);tone(900,.14,.16,'square',.23)}
+function finishSound(){tone(650,.20,.18,'square',0);tone(525,.23,.20,'square',.26);tone(410,.48,.23,'square',.55)}
+function format(sec){sec=Math.max(0,Math.floor(sec));return `${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`}
+function currentLimit(){return phase==='prep'?PREP_LIMIT:cfg().speechLimit}
+
+function updateClasses(){
+ stage.className='stage';
+ if(phase==='prep')stage.classList.add('state-prep');
+ else if(phase==='prepDone')stage.classList.add('state-ready');
+ else if(phase==='finished')stage.classList.add('state-finished');
+ else if(phase==='speech'&&elapsed>=cfg().warningAt)stage.classList.add('state-warning');
+ else stage.classList.add('state-speech');
+}
+
+function render(){
+ modeLabel.textContent=cfg().label;
+ timeEl.textContent=format(elapsed);
+ progressBar.style.width=`${Math.min(100,(elapsed/currentLimit())*100)}%`;
+ updateClasses();
+
+ if(phase==='prep'){
+  phaseEl.textContent='Preparation Time';
+  instructionEl.textContent='Count up from 0:00 to 1:00.';
+  sublineEl.textContent='Staff: press START PREP when preparation begins.';
+  statusPill.textContent=running?'PREPARING':(elapsed===0?'READY':'PAUSED');
+  mainBtn.textContent=running?'RUNNING':(elapsed===0?'START PREP':'RESUME');
+ } else if(phase==='prepDone'){
+  phaseEl.textContent='Preparation Time Up';
+  instructionEl.textContent='Preparation has finished.';
+  sublineEl.textContent=`Staff: press START ${cfg().label} SPEECH when the contestant is ready.`;
+  statusPill.textContent='READY TO SPEAK';
+  mainBtn.textContent='START SPEECH';
+ } else if(phase==='speech'){
+  phaseEl.textContent=`${cfg().label} Speech Time`;
+  instructionEl.textContent=elapsed<cfg().warningAt?(mode==='primary'?'Speech time: up to 3 minutes.':'Speech time: up to 4 minutes.'):'1 MINUTE REMAINING';
+  sublineEl.textContent=mode==='primary'?'Warning at 2:00 • Time up at 3:00':'Warning at 3:00 • Time up at 4:00';
+  statusPill.textContent=running?'SPEAKING':'PAUSED';
+  mainBtn.textContent=running?'RUNNING':'RESUME';
+ } else {
+  phaseEl.textContent='Time Up';
+  instructionEl.textContent='Official speaking time has ended.';
+  sublineEl.textContent='Thank you.';
+  statusPill.textContent='FINISHED';
+  mainBtn.textContent='START NEXT';
+ }
+ pauseBtn.textContent=running?'PAUSE':'RESUME';
+ primaryBtn.classList.toggle('active',mode==='primary');
+ secondaryBtn.classList.toggle('active',mode==='secondary');
+}
+
+function pulse(){timeEl.classList.remove('bump');void timeEl.offsetWidth;timeEl.classList.add('bump');setTimeout(()=>timeEl.classList.remove('bump'),140)}
+function flashScreen(kind){flash.className=`flash ${kind}`;setTimeout(()=>flash.className='flash',760)}
+
+function setMode(next){
+ if(running)return;
+ mode=next;
+ if(phase==='finished')reset(false);
+ warningPlayed=false;
+ render();
+}
+
+function start(){
+ ensureAudio();
+ if(phase==='finished')reset(false);
+ if(running)return;
+ if(phase==='prepDone'){phase='speech';elapsed=0;baseElapsed=0;warningPlayed=false;flashScreen('warn');pulse()}
+ running=true;baseElapsed=elapsed;startAt=performance.now();controls.classList.add('dim');tick();render();
+}
+
+function pause(){
+ if(!running)return;
+ elapsed=baseElapsed+(performance.now()-startAt)/1000;
+ running=false;if(raf)cancelAnimationFrame(raf);controls.classList.remove('dim');render();
+}
+
+function reset(resetMode=false){
+ if(raf)cancelAnimationFrame(raf);
+ running=false;phase='prep';elapsed=0;baseElapsed=0;warningPlayed=false;controls.classList.remove('dim');if(resetMode)mode='primary';render();
+}
+
+function finishPrep(){
+ running=false;elapsed=PREP_LIMIT;phase='prepDone';baseElapsed=0;prepDoneSound();flashScreen('warn');controls.classList.remove('dim');pulse();render();
+ setTimeout(()=>{elapsed=0;render()},900);
+}
+
+function finishSpeech(){
+ running=false;elapsed=cfg().speechLimit;phase='finished';finishSound();flashScreen('end');controls.classList.remove('dim');pulse();render();
+}
+
+function tick(){
+ if(!running)return;
+ elapsed=baseElapsed+(performance.now()-startAt)/1000;
+ if(phase==='prep'&&elapsed>=PREP_LIMIT){elapsed=PREP_LIMIT;finishPrep();return}
+ if(phase==='speech'){
+   if(elapsed>=cfg().warningAt&&!warningPlayed){warningPlayed=true;warningSound();flashScreen('warn');pulse()}
+   if(elapsed>=cfg().speechLimit){elapsed=cfg().speechLimit;finishSpeech();return}
+ }
+ render();raf=requestAnimationFrame(tick);
+}
+
+async function toggleFullscreen(){try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){}}
+primaryBtn.onclick=e=>{e.stopPropagation();setMode('primary')};
+secondaryBtn.onclick=e=>{e.stopPropagation();setMode('secondary')};
+mainBtn.onclick=e=>{e.stopPropagation();start()};
+pauseBtn.onclick=e=>{e.stopPropagation();pause()};
+resetBtn.onclick=e=>{e.stopPropagation();reset(false)};
+fullBtn.onclick=e=>{e.stopPropagation();toggleFullscreen()};
+timeEl.onclick=()=>{if(!running)start()};
+document.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();if(!running)start()}if(e.key==='1')setMode('primary');if(e.key==='2')setMode('secondary');if(e.key.toLowerCase()==='p')pause();if(e.key.toLowerCase()==='r')reset(false);if(e.key.toLowerCase()==='f')toggleFullscreen()});
+document.addEventListener('fullscreenchange',()=>{fullBtn.textContent=document.fullscreenElement?'EXIT FULL':'FULL'});
+render();
+})();
+</script>
+</body>
+</html>
